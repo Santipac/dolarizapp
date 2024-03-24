@@ -8,4 +8,6 @@ export const globalColors = {
   violet: '#AF96FB',
   reddy: '#FF5959',
   turquoise: '#49DBC8',
+  black: '#000',
+  white: '#FFF'
 };
