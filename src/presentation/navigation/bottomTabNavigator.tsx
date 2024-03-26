@@ -8,7 +8,6 @@ export default function TabNavigator() {
     <Tab.Navigator screenOptions={{
         headerShown: false,
     }}>
-      <Tab.Screen name='Inicio' component={HomeScreen} />
       <Tab.Screen name='Cotizaciones' component={QuotationScreen} />
       <Tab.Screen name='Historial' component={HistoryScreen} />
     </Tab.Navigator>
