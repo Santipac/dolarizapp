@@ -3,6 +3,7 @@ import { HistoryScreen, QuotationScreen } from '~/presentation/screens';
 import { Calculator, CalendarClock, DollarSign } from 'lucide-react-native';
 import { globalColors } from '../theme';
 import { ConvertScreen } from '../screens/convertScreen';
+import { StackNavigator } from './stackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,8 +17,8 @@ export default function TabNavigator() {
       }}
     >
       <Tab.Screen
-        name="Cotizaciones"
-        component={QuotationScreen}
+        name="Home"
+        component={StackNavigator}
         options={{
           tabBarIcon: ({ focused }) => (
             <DollarSign

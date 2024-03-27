@@ -1,2 +1,2 @@
 export * from './historyScreen'
-export * from './quotationScreen'
+export * from './quotationsScreen'

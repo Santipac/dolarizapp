@@ -14,17 +14,20 @@ export const QuotationScreen = () => {
   const insets = useSafeAreaInsets();
   const styles = useStyles(insets);
   const { data, status, error } = useQuotations();
+
   return (
     <View style={styles.container}>
       {status === 'pending' && (
-        <ActivityIndicator animating color={globalColors.greeny} />
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator animating color={globalColors.dark} size={45} />
+        </View>
       )}
       {status === 'success' && (
         <>
           <Text style={styles.title}>Dolarizapp</Text>
           <FlatList
             data={data}
-            renderItem={({ item }) => <Card quote={item} />}
+            renderItem={({ item }) => <Card quote={item} withButton />}
             keyExtractor={item => item.name}
           />
         </>
@@ -46,6 +49,11 @@ function useStyles(inserts: EdgeInsets) {
       textAlign: 'center',
       fontSize: 24,
       fontWeight: '900',
+    },
+    loaderContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   });
 }

@@ -2,32 +2,50 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Dollar } from '~/core/entities/dolar.entity';
 import { globalColors } from '../theme';
 import { Divider } from './divider';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParams } from '../navigation/stackNavigator';
+import { QUOTE_TYPE, getQuoteLabel } from '../helpers';
 
 interface CardProps {
   quote: Dollar;
+  withButton: boolean;
 }
 
-export const Card = ({ quote }: CardProps) => {
+export const Card = ({ quote, withButton }: CardProps) => {
+  const navigation = useNavigation<NavigationProp<RootStackParams>>();
+
   return (
-    <View style={styles.container}>
-      <View style={styles.wrapper}>
-        <Text style={styles.quoteName}>{quote.name}</Text>
-        <View style={styles.quotesContainer}>
-          <View style={styles.quotesWrapper}>
-            <Text style={styles.quotesLabel}>Compra</Text>
-            <Text style={styles.quotesPrice}>${quote.priceBuy}</Text>
-          </View>
-          <Divider />
-          <View style={styles.quotesWrapper}>
-            <Text style={styles.quotesLabel}>Venta</Text>
-            <Text style={styles.quotesPrice}>${quote.priceSell}</Text>
+    <Pressable
+      onPress={() =>
+        navigation.navigate('Quote', {
+          dollar: quote,
+        })
+      }
+    >
+      <View style={styles.container}>
+        <View style={styles.wrapper}>
+          <Text style={styles.quoteName}>
+            {getQuoteLabel(quote.name as QUOTE_TYPE)}
+          </Text>
+          <View style={styles.quotesContainer}>
+            <View style={styles.quotesWrapper}>
+              <Text style={styles.quotesLabel}>Compra</Text>
+              <Text style={styles.quotesPrice}>${quote.priceBuy}</Text>
+            </View>
+            <Divider />
+            <View style={styles.quotesWrapper}>
+              <Text style={styles.quotesLabel}>Venta</Text>
+              <Text style={styles.quotesPrice}>${quote.priceSell}</Text>
+            </View>
           </View>
         </View>
+        {withButton && (
+          <View style={styles.button}>
+            <Text style={styles.buttonLabel}>Ver Más</Text>
+          </View>
+        )}
       </View>
-      <Pressable style={styles.button} onPress={() => {}}>
-        <Text style={styles.buttonLabel}>Ver Más</Text>
-      </Pressable>
-    </View>
+    </Pressable>
   );
 };
 
@@ -36,11 +54,11 @@ const styles = StyleSheet.create({
     minHeight: 100,
     backgroundColor: globalColors.white,
     marginVertical: 8,
-    borderRadius: 16,
+    borderRadius: 30,
     borderWidth: 2,
     borderColor: globalColors.black,
-    borderRightWidth: 8,
-    borderBottomWidth: 8,
+    borderRightWidth: 6,
+    borderBottomWidth: 6,
   },
   wrapper: {
     paddingTop: 6,
@@ -82,8 +100,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderTopWidth: 2,
     borderTopColor: globalColors.black,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 23,
+    borderBottomRightRadius: 23,
   },
   buttonLabel: {
     fontSize: 14,
