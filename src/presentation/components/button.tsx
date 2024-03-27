@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.greeny,
     height: 54,
     borderWidth: 2.3,
-    borderColor: '#000',
+    borderColor: globalColors.black,
     borderRadius: 4,
   },
   label: {

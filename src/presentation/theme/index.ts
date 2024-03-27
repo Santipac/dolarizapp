@@ -2,7 +2,7 @@ export const globalColors = {
   greeny: '#BEFF6C',
   orange: '#FC7339',
   dark: '#1E1E1E',
-  grey: '#EFEFEF',
+  grey: '#D4D4D4',
   yellow: '#FFF172',
   magenta: '#FD9FDD',
   violet: '#AF96FB',
