@@ -11,3 +11,11 @@ export const globalColors = {
   black: '#000',
   white: '#FFF'
 };
+
+export const font = {
+  extrabold: 'WorkSans_Extrabold',
+  bold: 'WorkSans_Bold',
+  semibold: 'WorkSans_Semibold',
+  medium: 'WorkSans_Medium',
+  light: 'WorkSans_Light',
+}

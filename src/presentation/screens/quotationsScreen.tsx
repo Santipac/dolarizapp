@@ -8,7 +8,7 @@ import {
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQuotations } from '../hooks/useQuotation';
 import { Card } from '../components/card';
-import { globalColors } from '../theme';
+import { font, globalColors } from '../theme';
 
 export const QuotationScreen = () => {
   const insets = useSafeAreaInsets();
@@ -48,7 +48,7 @@ function useStyles(inserts: EdgeInsets) {
       marginVertical: 4,
       textAlign: 'center',
       fontSize: 24,
-      fontWeight: '900',
+      fontFamily: font.extrabold,
     },
     loaderContainer: {
       flex: 1,

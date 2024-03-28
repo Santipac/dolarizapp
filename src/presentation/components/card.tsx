@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Dollar } from '~/core/entities/dolar.entity';
-import { globalColors } from '../theme';
+import { font, globalColors } from '../theme';
 import { Divider } from './divider';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParams } from '../navigation/stackNavigator';
@@ -66,8 +66,9 @@ const styles = StyleSheet.create({
   },
   quoteName: {
     fontSize: 20,
-    fontWeight: '900',
+    fontFamily: font.extrabold,
     color: globalColors.black,
+    textTransform: 'uppercase',
   },
   quotesContainer: {
     justifyContent: 'center',
@@ -84,12 +85,12 @@ const styles = StyleSheet.create({
   },
   quotesLabel: {
     fontSize: 14,
-    fontWeight: '600',
+    fontFamily: font.semibold,
     color: globalColors.black,
   },
   quotesPrice: {
     fontSize: 20,
-    fontWeight: '600',
+    fontFamily: font.bold,
     color: globalColors.black,
   },
   button: {
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
   },
   buttonLabel: {
     fontSize: 14,
-    fontWeight: '800',
+    fontFamily: font.extrabold,
     textTransform: 'uppercase',
   },
 });

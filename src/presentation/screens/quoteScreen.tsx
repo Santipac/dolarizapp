@@ -2,7 +2,7 @@ import { View, StyleSheet, Text } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { RootStackParams } from '../navigation/stackNavigator';
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { globalColors } from '../theme';
+import { font, globalColors } from '../theme';
 import { format } from 'date-fns';
 import { QUOTE_TYPE, getQuoteDescription, getQuoteLabel } from '../helpers';
 
@@ -57,7 +57,7 @@ function useStyles(inserts: EdgeInsets) {
       marginVertical: 4,
       textAlign: 'center',
       fontSize: 24,
-      fontWeight: '900',
+      fontFamily: font.extrabold,
     },
     cardWrapper: {
       marginTop: 20,
@@ -78,25 +78,25 @@ function useStyles(inserts: EdgeInsets) {
     },
     cardTitle: {
       fontSize: 16,
-      fontWeight: '600',
+      fontFamily: font.semibold,
       color: globalColors.black,
     },
     cardPrice: {
       textAlign: 'center',
       fontSize: 24,
-      fontWeight: '800',
+      fontFamily: font.bold,
       color: globalColors.black,
     },
     lastUpdateLabel: {
       fontSize: 18,
-      fontWeight: '600',
-      color: '#7c7c7c',
+      fontFamily: font.semibold,
+      color: globalColors.orange,
     },
     lastUpdate: {
       fontSize: 18,
-      fontWeight: '800',
-      color: globalColors.black,
-      lineHeight: 22,
+      fontFamily: font.bold,
+      color: '#464646',
+      lineHeight: 24,
       letterSpacing: -0.5,
     },
     infoContainer: {

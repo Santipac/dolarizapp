@@ -12,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -26,6 +24,21 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/WorkSans-ExtraBold.ttf",
+            "./assets/fonts/WorkSans-Bold.ttf",
+            "./assets/fonts/WorkSans-Medium.ttf",
+            "./assets/fonts/WorkSans-Regular.ttf",
+            "./assets/fonts/WorkSans-Light.ttf",
+            "./assets/fonts/WorkSans-SemiBold.ttf"
+          ]
+        }
+      ]
+    ]
   }
 }
