@@ -1,7 +1,7 @@
 export interface Dollar {
   exchange: string;
-  priceSell: number;
-  priceBuy: number;
+  sellPrice: number;
+  buyPrice: number;
   name: string;
   updatedAt: string;
 }

@@ -10,16 +10,18 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#BEFF6C"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#BEFF6C"
       }
     },
     "web": {
@@ -32,9 +34,6 @@
           "fonts": [
             "./assets/fonts/WorkSans-ExtraBold.ttf",
             "./assets/fonts/WorkSans-Bold.ttf",
-            "./assets/fonts/WorkSans-Medium.ttf",
-            "./assets/fonts/WorkSans-Regular.ttf",
-            "./assets/fonts/WorkSans-Light.ttf",
             "./assets/fonts/WorkSans-SemiBold.ttf"
           ]
         }

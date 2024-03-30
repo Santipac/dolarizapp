@@ -2,50 +2,57 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Dollar } from '~/core/entities/dolar.entity';
 import { font, globalColors } from '../theme';
 import { Divider } from './divider';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { RootStackParams } from '../navigation/stackNavigator';
-import { QUOTE_TYPE, getQuoteLabel } from '../helpers';
+import { formatCurrency, getQuoteLabel } from '../helpers';
+import { QUOTE_TYPE } from '~/infrastructure/interfaces/quote';
 
 interface CardProps {
   quote: Dollar;
-  withButton: boolean;
+  formatCurrencyTo?: 'ARS' | 'USD';
+  withSeeDetailsButton?: boolean;
+  withSaveInHistoryButton?: boolean;
 }
 
-export const Card = ({ quote, withButton }: CardProps) => {
-  const navigation = useNavigation<NavigationProp<RootStackParams>>();
-
+export const Card = ({
+  quote,
+  formatCurrencyTo = 'ARS',
+  withSeeDetailsButton = false,
+  withSaveInHistoryButton = false,
+}: CardProps) => {
   return (
-    <Pressable
-      onPress={() =>
-        navigation.navigate('Quote', {
-          dollar: quote,
-        })
-      }
-    >
-      <View style={styles.container}>
-        <View style={styles.wrapper}>
+    <View style={styles.container}>
+      <View style={styles.wrapper}>
+        <View style={styles.header}>
           <Text style={styles.quoteName}>
             {getQuoteLabel(quote.name as QUOTE_TYPE)}
           </Text>
-          <View style={styles.quotesContainer}>
-            <View style={styles.quotesWrapper}>
-              <Text style={styles.quotesLabel}>Compra</Text>
-              <Text style={styles.quotesPrice}>${quote.priceBuy}</Text>
-            </View>
-            <Divider />
-            <View style={styles.quotesWrapper}>
-              <Text style={styles.quotesLabel}>Venta</Text>
-              <Text style={styles.quotesPrice}>${quote.priceSell}</Text>
-            </View>
+          {withSaveInHistoryButton && (
+            <Pressable>
+              <Text>save</Text>
+            </Pressable>
+          )}
+        </View>
+        <View style={styles.quotesContainer}>
+          <View style={styles.quotesWrapper}>
+            <Text style={styles.quotesLabel}>Compra</Text>
+            <Text style={styles.quotesPrice}>
+              {formatCurrency(quote.buyPrice, formatCurrencyTo)}
+            </Text>
+          </View>
+          <Divider />
+          <View style={styles.quotesWrapper}>
+            <Text style={styles.quotesLabel}>Venta</Text>
+            <Text style={styles.quotesPrice}>
+              {formatCurrency(quote.sellPrice, formatCurrencyTo)}
+            </Text>
           </View>
         </View>
-        {withButton && (
-          <View style={styles.button}>
-            <Text style={styles.buttonLabel}>Ver Más</Text>
-          </View>
-        )}
       </View>
-    </Pressable>
+      {withSeeDetailsButton && (
+        <View style={styles.button}>
+          <Text style={styles.buttonLabel}>Ver Más</Text>
+        </View>
+      )}
+    </View>
   );
 };
 
@@ -63,6 +70,11 @@ const styles = StyleSheet.create({
   wrapper: {
     paddingTop: 6,
     paddingHorizontal: 16,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   quoteName: {
     fontSize: 20,

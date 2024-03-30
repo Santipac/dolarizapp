@@ -1,24 +1,17 @@
+import { Dollar } from "~/core/entities/dolar.entity";
+import { CONVERTION } from "~/infrastructure/interfaces/dolarHistory";
+import { QUOTE_TYPE } from "~/infrastructure/interfaces/quote";
+
 export function formatCurrency(price: number, currency: 'ARS' | 'USD') {
     const formatter = new Intl.NumberFormat(
         currency === 'ARS' ? 'es-AR' : 'en-US',
         {
             style: 'currency',
             currency: currency === 'ARS' ? 'ARS' : 'USD',
-            currencyDisplay: 'code',
         }
     );
 
     return formatter.format(price);
-}
-
-export enum QUOTE_TYPE {
-    OFICIAL = 'Oficial',
-    BLUE = 'Blue',
-    CCL = 'Contado con liquidación',
-    CRYPTO = 'Cripto',
-    MAYORISTA = 'Mayorista',
-    TARJETA = 'Tarjeta',
-    BOLSA = 'Bolsa',
 }
 
 
@@ -49,4 +42,19 @@ export function getQuoteLabel(type: QUOTE_TYPE): string | null {
         default:
             return type
     }
+}
+
+type GetConvertionParams = {
+    quote: Dollar
+    value: number
+    convertion: CONVERTION
+}
+export function getConvertion({ convertion, quote, value }: GetConvertionParams): Dollar {
+    if (convertion === CONVERTION.ARS_TO_USD) {
+        return { ...quote, buyPrice: Number((value / quote.buyPrice).toFixed(2)), sellPrice: Number((value / quote.sellPrice).toFixed(2)) }
+    }
+    if (convertion === CONVERTION.USD_TO_ARS) {
+        return { ...quote, buyPrice: value * quote.buyPrice, sellPrice: value * quote.sellPrice }
+    }
+    return quote
 }

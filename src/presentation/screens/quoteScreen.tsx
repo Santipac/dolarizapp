@@ -4,7 +4,8 @@ import { RootStackParams } from '../navigation/stackNavigator';
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { font, globalColors } from '../theme';
 import { format } from 'date-fns';
-import { QUOTE_TYPE, getQuoteDescription, getQuoteLabel } from '../helpers';
+import { getQuoteDescription, getQuoteLabel } from '../helpers';
+import { QUOTE_TYPE } from '~/infrastructure/interfaces/quote';
 
 export const QuoteScreen = () => {
   const insets = useSafeAreaInsets();
@@ -21,17 +22,17 @@ export const QuoteScreen = () => {
       <View style={styles.cardWrapper}>
         <View style={[styles.card, { backgroundColor: globalColors.greeny }]}>
           <Text style={styles.cardTitle}>Compra</Text>
-          <Text style={styles.cardPrice}>${dollar.priceBuy}</Text>
+          <Text style={styles.cardPrice}>${dollar.buyPrice}</Text>
         </View>
         <View style={[styles.card, { backgroundColor: globalColors.reddy }]}>
           <Text style={styles.cardTitle}>Venta</Text>
-          <Text style={styles.cardPrice}>${dollar.priceSell}</Text>
+          <Text style={styles.cardPrice}>${dollar.sellPrice}</Text>
         </View>
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.lastUpdateLabel}>Última actualización</Text>
         <Text style={styles.lastUpdate}>
-          {format(dollar.updatedAt, 'dd/MM/yyyy HH:mm')}
+          {format(dollar.updatedAt, 'dd/MM/yyyy hh:mm a')} .
         </Text>
       </View>
       {description !== null && (

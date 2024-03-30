@@ -21,8 +21,6 @@ export default function App() {
           WorkSans_Extrabold: fonts.extrabold,
           WorkSans_Bold: fonts.bold,
           WorkSans_Semibold: fonts.semibold,
-          WorkSans_Medium: fonts.medium,
-          WorkSans_Light: fonts.light,
         });
         await SplashScreen.hideAsync();
       } catch (error) {
