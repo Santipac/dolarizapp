@@ -1,15 +1,20 @@
+import theme from '../theme';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Dollar } from '~/core/entities/dolar.entity';
-import { font, globalColors } from '../theme';
 import { Divider } from './divider';
 import { formatCurrency, getQuoteLabel } from '../helpers';
 import { QUOTE_TYPE } from '~/infrastructure/interfaces/quote';
+import { Bookmark } from 'lucide-react-native';
+import { useState } from 'react';
+import { RootStackParams } from '../navigation/stackNavigator';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 interface CardProps {
   quote: Dollar;
   formatCurrencyTo?: 'ARS' | 'USD';
   withSeeDetailsButton?: boolean;
   withSaveInHistoryButton?: boolean;
+  onHandleConvertionSaved?: (quote: Dollar) => void;
 }
 
 export const Card = ({
@@ -17,7 +22,22 @@ export const Card = ({
   formatCurrencyTo = 'ARS',
   withSeeDetailsButton = false,
   withSaveInHistoryButton = false,
+  onHandleConvertionSaved,
 }: CardProps) => {
+  const [saved, setSaved] = useState<boolean>();
+
+  const navigation = useNavigation<NavigationProp<RootStackParams>>();
+
+  const handleCardPress = (quote: Dollar) =>
+    navigation.navigate('Quote', {
+      dollar: quote,
+    });
+
+  const handleConvertionSaved = () => {
+    setSaved(!saved);
+    onHandleConvertionSaved && onHandleConvertionSaved(quote);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
@@ -26,9 +46,13 @@ export const Card = ({
             {getQuoteLabel(quote.name as QUOTE_TYPE)}
           </Text>
           {withSaveInHistoryButton && (
-            <Pressable>
-              <Text>save</Text>
-            </Pressable>
+            <Bookmark
+              onPress={handleConvertionSaved}
+              size="30"
+              absoluteStrokeWidth
+              color={theme.colors.common.black}
+              fill={saved ? theme.colors.yellow : theme.colors.common.white}
+            />
           )}
         </View>
         <View style={styles.quotesContainer}>
@@ -48,9 +72,9 @@ export const Card = ({
         </View>
       </View>
       {withSeeDetailsButton && (
-        <View style={styles.button}>
+        <Pressable style={styles.button} onPress={() => handleCardPress(quote)}>
           <Text style={styles.buttonLabel}>Ver Más</Text>
-        </View>
+        </Pressable>
       )}
     </View>
   );
@@ -59,11 +83,11 @@ export const Card = ({
 const styles = StyleSheet.create({
   container: {
     minHeight: 100,
-    backgroundColor: globalColors.white,
+    backgroundColor: theme.colors.common.white,
     marginVertical: 8,
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: globalColors.black,
+    borderColor: theme.colors.common.black,
     borderRightWidth: 6,
     borderBottomWidth: 6,
   },
@@ -77,9 +101,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   quoteName: {
-    fontSize: 20,
-    fontFamily: font.extrabold,
-    color: globalColors.black,
+    fontSize: theme.font.size.extra,
+    fontFamily: theme.font.family.extrabold,
+    color: theme.colors.common.black,
     textTransform: 'uppercase',
   },
   quotesContainer: {
@@ -96,29 +120,30 @@ const styles = StyleSheet.create({
     marginVertical: 14,
   },
   quotesLabel: {
-    fontSize: 14,
-    fontFamily: font.semibold,
-    color: globalColors.black,
+    fontSize: theme.font.size.small,
+    fontFamily: theme.font.family.semibold,
+    color: theme.colors.common.black,
   },
   quotesPrice: {
-    fontSize: 20,
-    fontFamily: font.bold,
-    color: globalColors.black,
+    fontSize: theme.font.size.extra,
+    fontFamily: theme.font.family.bold,
+    color: theme.colors.common.black,
+    userSelect: 'text',
   },
   button: {
     flex: 1,
-    backgroundColor: globalColors.orange,
-    paddingVertical: 8,
+    backgroundColor: theme.colors.orange,
+    paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderTopWidth: 2,
-    borderTopColor: globalColors.black,
+    borderTopColor: theme.colors.common.black,
     borderBottomLeftRadius: 23,
     borderBottomRightRadius: 23,
   },
   buttonLabel: {
-    fontSize: 14,
-    fontFamily: font.extrabold,
+    fontSize: theme.font.size.normal,
+    fontFamily: theme.font.family.extrabold,
     textTransform: 'uppercase',
   },
 });

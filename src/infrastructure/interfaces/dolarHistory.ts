@@ -4,7 +4,9 @@ export enum CONVERTION {
 }
 
 export interface ConvertionHistory {
+    id: string
     type: CONVERTION
+    amount: number
     exchange: string
     sellPrice: number
     buyPrice: number

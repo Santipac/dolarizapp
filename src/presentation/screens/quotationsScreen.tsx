@@ -9,38 +9,31 @@ import {
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQuotations } from '../hooks/useQuotation';
 import { Card } from '../components/card';
-import { font, globalColors } from '../theme';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { RootStackParams } from '../navigation/stackNavigator';
-import { Dollar } from '~/core/entities/dolar.entity';
+import theme from '../theme';
 
 export const QuotationScreen = () => {
   const insets = useSafeAreaInsets();
   const styles = useStyles(insets);
   const { data, status, error } = useQuotations();
-  const navigation = useNavigation<NavigationProp<RootStackParams>>();
-
-  const handleCardPress = (quote: Dollar) =>
-    navigation.navigate('Quote', {
-      dollar: quote,
-    });
 
   return (
     <View style={styles.container}>
       {status === 'pending' && (
         <View style={styles.loaderContainer}>
-          <ActivityIndicator animating color={globalColors.dark} size={45} />
+          <ActivityIndicator
+            animating
+            color={theme.colors.common.black}
+            size={45}
+          />
         </View>
       )}
       {status === 'success' && (
         <>
-          <Text style={styles.title}>Dolarizapp</Text>
+          <Text style={styles.title}>Cotizaciones</Text>
           <FlatList
             data={data}
             renderItem={({ item }) => (
-              <Pressable onPress={() => handleCardPress(item)}>
-                <Card quote={item} withSeeDetailsButton />
-              </Pressable>
+              <Card quote={item} withSeeDetailsButton />
             )}
             keyExtractor={item => item.name}
           />
@@ -61,8 +54,8 @@ function useStyles(inserts: EdgeInsets) {
     title: {
       marginVertical: 4,
       textAlign: 'center',
-      fontSize: 24,
-      fontFamily: font.extrabold,
+      fontSize: theme.font.size.gigant,
+      fontFamily: theme.font.family.extrabold,
     },
     loaderContainer: {
       flex: 1,

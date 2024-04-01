@@ -7,14 +7,15 @@ import {
   FlatList,
 } from 'react-native';
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { font, globalColors } from '../theme';
-import { useMemo, useState } from 'react';
+import theme from '../theme';
+import { useEffect, useMemo, useState } from 'react';
 import { CONVERTION } from '~/infrastructure/interfaces/dolarHistory';
 import { useStore } from '~/core/store/useStore';
 import { useDebounceValue } from '../hooks/useDebounceValue';
-import { DolarMapper } from '~/infrastructure/mappers/dolar.mapper';
 import { getConvertion } from '../helpers';
 import { Card } from '../components';
+import { Dollar } from '~/core/entities/dolar.entity';
+import { DolarMapper } from '~/infrastructure/mappers/dolar.mapper';
 
 export const ConvertScreen = () => {
   const [value, setValue] = useState('');
@@ -23,6 +24,7 @@ export const ConvertScreen = () => {
   const debouncedValue = useDebounceValue(value);
   const insets = useSafeAreaInsets();
   const styles = useStyles(insets);
+  const { toggleQuoteIntoHistory } = useStore();
 
   const convertedValues = useMemo(() => {
     if (debouncedValue.length < 1) return [];
@@ -40,15 +42,25 @@ export const ConvertScreen = () => {
     setValue(text.trim());
   };
 
+  const handleConvertionSaved = (quote: Dollar) => {
+    toggleQuoteIntoHistory(
+      DolarMapper.fromDollarToConvertionHistory(
+        quote,
+        tab,
+        Number(debouncedValue)
+      )
+    );
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Dolarizapp</Text>
+      <Text style={styles.title}>Convertidor</Text>
       <View style={styles.tabContainer}>
         <Pressable
           style={[
             styles.tab,
             tab === CONVERTION.ARS_TO_USD && {
-              backgroundColor: globalColors.orange,
+              backgroundColor: theme.colors.orange,
             },
           ]}
           onPress={() => setTab(CONVERTION.ARS_TO_USD)}
@@ -59,7 +71,7 @@ export const ConvertScreen = () => {
           style={[
             styles.tab,
             tab === CONVERTION.USD_TO_ARS && {
-              backgroundColor: globalColors.orange,
+              backgroundColor: theme.colors.orange,
             },
           ]}
           onPress={() => setTab(CONVERTION.USD_TO_ARS)}
@@ -82,6 +94,7 @@ export const ConvertScreen = () => {
             quote={item}
             withSaveInHistoryButton
             formatCurrencyTo={tab === CONVERTION.ARS_TO_USD ? 'USD' : 'ARS'}
+            onHandleConvertionSaved={handleConvertionSaved}
           />
         )}
         keyExtractor={item => item.name}
@@ -102,22 +115,22 @@ function useStyles(inserts: EdgeInsets) {
     title: {
       marginVertical: 4,
       textAlign: 'center',
-      fontSize: 24,
-      fontFamily: font.extrabold,
+      fontSize: theme.font.size.gigant,
+      fontFamily: theme.font.family.extrabold,
     },
     input: {
       height: 55,
       borderWidth: 2,
       padding: 10,
-      backgroundColor: globalColors.white,
-      fontFamily: font.bold,
-      fontSize: 18,
+      backgroundColor: theme.colors.common.white,
+      fontFamily: theme.font.family.bold,
+      fontSize: theme.font.size.large,
       paddingLeft: 16,
     },
     tabContainer: {
       marginVertical: 8,
       flexDirection: 'row',
-      backgroundColor: globalColors.white,
+      backgroundColor: theme.colors.common.white,
       borderWidth: 2,
       borderRadius: 4,
     },
@@ -128,9 +141,9 @@ function useStyles(inserts: EdgeInsets) {
       alignItems: 'center',
     },
     labelTab: {
-      fontFamily: font.bold,
-      fontSize: 18,
-      color: globalColors.dark,
+      fontFamily: theme.font.family.bold,
+      fontSize: theme.font.size.large,
+      color: theme.colors.common.black,
     },
   });
 }

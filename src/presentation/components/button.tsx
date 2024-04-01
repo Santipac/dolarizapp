@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native';
-import { globalColors } from '../theme';
+import theme from '../theme';
 
 interface ButtonProps {
   label: string;
@@ -24,14 +24,14 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: globalColors.greeny,
+    backgroundColor: theme.colors.greeny,
     height: 54,
     borderWidth: 2.3,
-    borderColor: globalColors.black,
+    borderColor: theme.colors.common.black,
     borderRadius: 4,
   },
   label: {
-    fontWeight: '800',
-    fontSize: 18,
+    fontFamily: theme.font.family.bold,
+    fontSize: theme.font.size.gigant,
   },
 });
