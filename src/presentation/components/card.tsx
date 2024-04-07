@@ -4,10 +4,12 @@ import { Dollar } from '~/core/entities/dolar.entity';
 import { Divider } from './divider';
 import { formatCurrency, getQuoteLabel } from '../helpers';
 import { QUOTE_TYPE } from '~/infrastructure/interfaces/quote';
-import { Bookmark } from 'lucide-react-native';
+import { Bookmark, Copy, CopyCheck } from 'lucide-react-native';
 import { useState } from 'react';
 import { RootStackParams } from '../navigation/stackNavigator';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import * as Clipboard from 'expo-clipboard';
+import Toast from 'react-native-toast-message';
 
 interface CardProps {
   quote: Dollar;
@@ -24,7 +26,7 @@ export const Card = ({
   withSaveInHistoryButton = false,
   onHandleConvertionSaved,
 }: CardProps) => {
-  const [saved, setSaved] = useState<boolean>();
+  const [saved, setSaved] = useState<boolean>(false);
 
   const navigation = useNavigation<NavigationProp<RootStackParams>>();
 
@@ -55,27 +57,87 @@ export const Card = ({
             />
           )}
         </View>
-        <View style={styles.quotesContainer}>
-          <View style={styles.quotesWrapper}>
-            <Text style={styles.quotesLabel}>Compra</Text>
-            <Text style={styles.quotesPrice}>
-              {formatCurrency(quote.buyPrice, formatCurrencyTo)}
-            </Text>
+        {onHandleConvertionSaved ? (
+          <View style={styles.priceConvertionContainer}>
+            <Convertion
+              label="Compra"
+              convertion={formatCurrency(quote.buyPrice, formatCurrencyTo)}
+            />
+            <Convertion
+              label="Venta"
+              convertion={formatCurrency(quote.sellPrice, formatCurrencyTo)}
+            />
           </View>
-          <Divider />
-          <View style={styles.quotesWrapper}>
-            <Text style={styles.quotesLabel}>Venta</Text>
-            <Text style={styles.quotesPrice}>
-              {formatCurrency(quote.sellPrice, formatCurrencyTo)}
-            </Text>
+        ) : (
+          <View style={styles.quotesContainer}>
+            <View style={styles.quotesWrapper}>
+              <Text style={styles.quotesLabel}>Compra</Text>
+              <Text style={styles.quotesPrice}>
+                {formatCurrency(quote.buyPrice, formatCurrencyTo)}
+              </Text>
+            </View>
+            <Divider />
+            <View style={styles.quotesWrapper}>
+              <Text style={styles.quotesLabel}>Venta</Text>
+              <Text style={styles.quotesPrice}>
+                {formatCurrency(quote.sellPrice, formatCurrencyTo)}
+              </Text>
+            </View>
           </View>
-        </View>
+        )}
       </View>
       {withSeeDetailsButton && (
         <Pressable style={styles.button} onPress={() => handleCardPress(quote)}>
           <Text style={styles.buttonLabel}>Ver Más</Text>
         </Pressable>
       )}
+    </View>
+  );
+};
+
+type Convertion = {
+  label: string;
+  convertion: string;
+};
+
+const Convertion: React.FC<Convertion> = ({ label, convertion }) => {
+  const [copied, setCopied] = useState<boolean>();
+
+  const handleClipboard = async () => {
+    await Clipboard.setStringAsync(convertion);
+    setCopied(true);
+    Toast.show({
+      type: 'success',
+      text1: 'Conversión copiada!',
+      visibilityTime: 2000,
+    });
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
+
+  return (
+    <View style={styles.convertionWrapper}>
+      <Text style={[styles.quotesLabel, { color: theme.colors.orange }]}>
+        {label}
+      </Text>
+      <View style={styles.copyPrice}>
+        <Text style={[styles.quotesPrice, { flex: 1 }]}>{convertion}</Text>
+        {copied ? (
+          <CopyCheck
+            size="20"
+            absoluteStrokeWidth
+            color={theme.colors.common.black}
+          />
+        ) : (
+          <Copy
+            onPress={handleClipboard}
+            size="20"
+            absoluteStrokeWidth
+            color={theme.colors.common.black}
+          />
+        )}
+      </View>
     </View>
   );
 };
@@ -145,5 +207,23 @@ const styles = StyleSheet.create({
     fontSize: theme.font.size.normal,
     fontFamily: theme.font.family.extrabold,
     textTransform: 'uppercase',
+  },
+  priceConvertionContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    gap: 6,
+    marginTop: 10,
+    marginBottom: 12,
+  },
+  convertionWrapper: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
+  copyPrice: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });

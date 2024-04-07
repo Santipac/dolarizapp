@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context';
 import theme from '../theme';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { CONVERTION } from '~/infrastructure/interfaces/dolarHistory';
 import { useStore } from '~/core/store/useStore';
 import { useDebounceValue } from '../hooks/useDebounceValue';
@@ -16,6 +16,8 @@ import { getConvertion } from '../helpers';
 import { Card } from '../components';
 import { Dollar } from '~/core/entities/dolar.entity';
 import { DolarMapper } from '~/infrastructure/mappers/dolar.mapper';
+import Toast from 'react-native-toast-message';
+import toastConfig from '../theme/toastConfig';
 
 export const ConvertScreen = () => {
   const [value, setValue] = useState('');
@@ -39,7 +41,7 @@ export const ConvertScreen = () => {
   }, [debouncedValue, tab]);
 
   const handleOnChange = (text: string) => {
-    setValue(text.trim());
+    setValue(text.replace(/[^0-9.]/g, '').trim());
   };
 
   const handleConvertionSaved = (quote: Dollar) => {
@@ -86,6 +88,7 @@ export const ConvertScreen = () => {
         onChangeText={handleOnChange}
         placeholder="Monto"
         keyboardType="numeric"
+        maxLength={13}
       />
       <FlatList
         data={convertedValues}
@@ -99,6 +102,7 @@ export const ConvertScreen = () => {
         )}
         keyExtractor={item => item.name}
       />
+      <Toast config={toastConfig} />
     </View>
   );
 };
