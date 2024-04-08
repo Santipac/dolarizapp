@@ -10,6 +10,7 @@ import { RootStackParams } from '../navigation/stackNavigator';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import * as Clipboard from 'expo-clipboard';
 import Toast from 'react-native-toast-message';
+import { useStore } from '~/core/store/useStore';
 
 interface CardProps {
   quote: Dollar;
@@ -27,6 +28,7 @@ export const Card = ({
   onHandleConvertionSaved,
 }: CardProps) => {
   const [saved, setSaved] = useState<boolean>(false);
+  const { historyQuotations } = useStore();
 
   const navigation = useNavigation<NavigationProp<RootStackParams>>();
 
@@ -53,7 +55,11 @@ export const Card = ({
               size="30"
               absoluteStrokeWidth
               color={theme.colors.common.black}
-              fill={saved ? theme.colors.yellow : theme.colors.common.white}
+              fill={
+                historyQuotations.some(q => q.id === quote.id)
+                  ? theme.colors.yellow
+                  : theme.colors.common.white
+              }
             />
           )}
         </View>

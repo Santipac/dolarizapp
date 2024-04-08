@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 export class DolarMapper {
   public static fromDolarApiToEntity(quote: DollarResponse): Dollar {
     return {
+      id: uuid(),
       exchange: quote.casa,
       name: quote.nombre,
       buyPrice: quote.compra,
@@ -20,7 +21,7 @@ export class DolarMapper {
     amount: number
   ): ConvertionHistory {
     return {
-      id: uuid(),
+      id: quote.id,
       amount,
       type: convertion,
       sellPrice: quote.sellPrice,

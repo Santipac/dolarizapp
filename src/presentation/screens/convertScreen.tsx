@@ -100,7 +100,7 @@ export const ConvertScreen = () => {
             onHandleConvertionSaved={handleConvertionSaved}
           />
         )}
-        keyExtractor={item => item.name}
+        keyExtractor={item => item.id}
       />
       <Toast config={toastConfig} />
     </View>
