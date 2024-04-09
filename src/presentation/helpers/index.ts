@@ -2,12 +2,12 @@ import { Dollar } from "~/core/entities/dolar.entity";
 import { CONVERTION } from "~/infrastructure/interfaces/dolarHistory";
 import { QUOTE_TYPE } from "~/infrastructure/interfaces/quote";
 
-export function formatCurrency(price: number, currency: 'ARS' | 'USD') {
+export function formatCurrency(price: number, currency: CONVERTION) {
     const formatter = new Intl.NumberFormat(
-        currency === 'ARS' ? 'es-AR' : 'en-US',
+        currency === CONVERTION.USD_TO_ARS ? 'es-AR' : 'en-US',
         {
             style: 'currency',
-            currency: currency === 'ARS' ? 'ARS' : 'USD',
+            currency: currency === CONVERTION.USD_TO_ARS ? 'ARS' : 'USD',
         }
     );
 

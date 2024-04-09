@@ -96,7 +96,7 @@ export const ConvertScreen = () => {
           <Card
             quote={item}
             withSaveInHistoryButton
-            formatCurrencyTo={tab === CONVERTION.ARS_TO_USD ? 'USD' : 'ARS'}
+            formatCurrencyTo={tab}
             onHandleConvertionSaved={handleConvertionSaved}
           />
         )}

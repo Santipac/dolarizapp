@@ -4,15 +4,17 @@ import { useStore } from '~/core/store/useStore';
 import theme from '../theme';
 import { HistoryCard } from '../components/historyCard';
 import { History } from 'lucide-react-native';
+import { Button } from '../components';
 
-interface HistoryScreenProps {}
-
-export const HistoryScreen = (props: HistoryScreenProps) => {
-  const { historyQuotations } = useStore();
+export const HistoryScreen = () => {
+  const { historyQuotations, clearHistory } = useStore();
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Historial</Text>
+      <View style={{ marginVertical: 12 }}>
+        <Button label="Limpiar historial" onPress={clearHistory} />
+      </View>
       {historyQuotations.length > 0 ? (
         <FlatList
           data={historyQuotations}

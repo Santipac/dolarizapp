@@ -14,6 +14,7 @@ type Actions = {
   toggleQuoteIntoHistory: (quote: ConvertionHistory) => void;
   setQuotations: (quotations: Dollar[]) => void;
   setError: (error: string) => void;
+  clearHistory: () => void;
   clearState: () => void;
 };
 
@@ -33,15 +34,13 @@ export const useStore = create<State & Actions>()(
         const alreadyExists = get().historyQuotations.some(
           q => q.id === quote.id
         );
-        if (alreadyExists) {
-          return set({
-            historyQuotations: get().historyQuotations.filter(
-              q => q.id !== quote.id
-            ),
-          });
-        }
-        return set({ historyQuotations: [...get().historyQuotations, quote] });
+        return set({
+          historyQuotations: alreadyExists
+            ? get().historyQuotations.filter(q => q.id !== quote.id)
+            : [...get().historyQuotations, quote],
+        });
       },
+      clearHistory: () => set({ historyQuotations: [] }),
       clearState: () => set(initialState),
     }),
     {

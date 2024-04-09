@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.colors.greeny,
+    backgroundColor: theme.colors.orange,
     height: 54,
     borderWidth: 2.3,
     borderColor: theme.colors.common.black,
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: theme.font.family.bold,
-    fontSize: theme.font.size.gigant,
+    fontSize: theme.font.size.large,
+    textTransform: 'uppercase',
   },
 });

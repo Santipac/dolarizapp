@@ -21,7 +21,8 @@ export class DolarMapper {
     amount: number
   ): ConvertionHistory {
     return {
-      id: quote.id,
+      id: uuid(),
+      quoteId: quote.id,
       amount,
       type: convertion,
       sellPrice: quote.sellPrice,

@@ -5,6 +5,7 @@ export enum CONVERTION {
 
 export interface ConvertionHistory {
     id: string
+    quoteId: string
     type: CONVERTION
     amount: number
     exchange: string

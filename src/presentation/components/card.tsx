@@ -11,10 +11,11 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import * as Clipboard from 'expo-clipboard';
 import Toast from 'react-native-toast-message';
 import { useStore } from '~/core/store/useStore';
+import { CONVERTION } from '~/infrastructure/interfaces/dolarHistory';
 
 interface CardProps {
   quote: Dollar;
-  formatCurrencyTo?: 'ARS' | 'USD';
+  formatCurrencyTo?: CONVERTION;
   withSeeDetailsButton?: boolean;
   withSaveInHistoryButton?: boolean;
   onHandleConvertionSaved?: (quote: Dollar) => void;
@@ -22,7 +23,7 @@ interface CardProps {
 
 export const Card = ({
   quote,
-  formatCurrencyTo = 'ARS',
+  formatCurrencyTo = CONVERTION.ARS_TO_USD,
   withSeeDetailsButton = false,
   withSaveInHistoryButton = false,
   onHandleConvertionSaved,
@@ -56,7 +57,7 @@ export const Card = ({
               absoluteStrokeWidth
               color={theme.colors.common.black}
               fill={
-                historyQuotations.some(q => q.id === quote.id)
+                historyQuotations.some(q => q.quoteId === quote.id &&  q.type === formatCurrencyTo)
                   ? theme.colors.yellow
                   : theme.colors.common.white
               }
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     marginVertical: 14,
   },
   quotesLabel: {
-    fontSize: theme.font.size.small,
+    fontSize: theme.font.size.normal,
     fontFamily: theme.font.family.semibold,
     color: theme.colors.common.black,
   },
@@ -227,6 +228,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   copyPrice: {
+    marginRight: 5,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
