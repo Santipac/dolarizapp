@@ -56,10 +56,7 @@ export const HistoryCard = ({ quote }: HistoryCardProps) => {
               Compra
             </Text>
             <Text style={styles.quotesPrice}>
-              {formatCurrency(
-                quote.buyPrice,
-                quote.type === CONVERTION.ARS_TO_USD ? 'USD' : 'ARS'
-              )}
+              {formatCurrency(quote.buyPrice, quote.type)}
             </Text>
           </View>
           <View style={styles.quotesWrapper}>
@@ -69,10 +66,7 @@ export const HistoryCard = ({ quote }: HistoryCardProps) => {
               Venta
             </Text>
             <Text style={styles.quotesPrice}>
-              {formatCurrency(
-                quote.sellPrice,
-                quote.type === CONVERTION.ARS_TO_USD ? 'USD' : 'ARS'
-              )}
+              {formatCurrency(quote.sellPrice, quote.type)}
             </Text>
           </View>
         </View>
@@ -85,7 +79,7 @@ export const HistoryCard = ({ quote }: HistoryCardProps) => {
           <Text
             style={[styles.savedDate, { fontFamily: theme.font.family.bold }]}
           >
-            {format(quote.date, 'dd/mm/yyyy HH:mm')}
+            {format(quote.date, 'dd/MM/yyyy HH:mm')}
           </Text>
         </View>
       </View>

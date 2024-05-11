@@ -56,7 +56,7 @@ export const ConvertScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Convertidor</Text>
+      <Text style={styles.title}>Conversor</Text>
       <View style={styles.tabContainer}>
         <Pressable
           style={[
